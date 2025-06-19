@@ -40,6 +40,7 @@ services:
 
   q3js-ds-wss-proxy-1:
     container_name: q3js-ds-wss-proxy-1
+    restart: unless-stopped
     build: build/wss-proxy
     depends_on:
       - q3js-dedicated-server-1
@@ -64,6 +65,7 @@ services:
 
   # q3js-ds-wss-proxy-2:
   #   container_name: q3js-ds-wss-proxy-2
+  #   restart: unless-stopped
   #   build: build/wss-proxy
   #   depends_on:
   #     - q3js-dedicated-server-2
