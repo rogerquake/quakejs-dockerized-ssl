@@ -79,32 +79,6 @@
 			return args;
 		}
 
-		function getCookie(key) {
-			const cookies = document.cookie.split("; ");
-			for (let cookie of cookies) {
-				let [cookieKey, cookieValue] = cookie.split("=");
-				if (cookieKey === key) {
-					return decodeURIComponent(cookieValue);
-				}
-			}
-			return null;
-		}
-
-		function setCookie(key, value, days) {
-			let expires = "";
-			if (days) {
-				let date = new Date();
-				date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-				expires = "; expires=" + date.toUTCString();
-			}
-			document.cookie = key + "=" + encodeURIComponent(value) + expires + "; path=/";
-		}
-
-		function getRandomItem(arr) {
-			const randomIndex = Math.floor(Math.random() * arr.length);
-			return arr[randomIndex];
-		}
-
 		window.onload = function () {
 			function resizeViewport() {
 				if (!ioq3.canvas) {
@@ -128,36 +102,10 @@
 			window.addEventListener("resize", resizeViewport);
 
 			// merge default args with query string args
+			// name, connect, team etc. are passed via URL params by the HA card
 			var args = ["+set", "fs_cdn", "<%= content %>", "+set", "sv_master1", "<%= master %>"];
+			args.push.apply(args, ["+set", "cl_q3confirmed", "1"]);
             args.push.apply(args, getQueryCommands());
-
-			let username = getCookie( "username" )
-			if (!username) {
-				username = prompt(
-					"Please enter your nickname",
-					getRandomItem( [
-						// random player names here :>
-						"Gordon Freeman", "Alyx Vance",
-						"Eli Vance", "Isaac Kleiner",
-						"Barney Calhoun", "Judith Mossman",
-						"Wallace Breen", "Father Grigori",
-						"Leon", "Odessa Cubbage", "G-Man",
-						"Wallace Breen", "John Carmack"
-					] )
-				);
-
-				if (!username) {
-					window.location.reload();
-					return;
-				}
-
-				setCookie( "username", username, 30 );
-
-				args.push.apply( args, [ "+s_volume", "0.1" ] );
-				args.push.apply( args, [ "+s_musicvolume", "0.05" ] );
-			}
-
-			args.push.apply( args, [ "+name", username ] );
 
 			// uncomment the following line to connect all clients to a specific server automatically
             // args.push.apply( args, [ "+connect", "q3js.changeme.com:27961" ] )
