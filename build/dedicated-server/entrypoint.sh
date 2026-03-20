@@ -2,7 +2,7 @@ cd /app
 Q3JS_SERVER_RESTART_SECONDS=$(($Q3JS_SERVER_RESTART_HOURS*60*60))
 # Build content server URL with port 9000 for dedicated server
 # Q3JS_DOMAIN is just the hostname/IP — dedicated server needs explicit port
-Q3JS_CDN_URL="https://${Q3JS_DOMAIN}:9000"
+Q3JS_CDN_URL="${Q3JS_DOMAIN}:9000"
 while true
 do
     if [ "$Q3JS_SERVER_RESTART_HOURS" = "0" ]; then
